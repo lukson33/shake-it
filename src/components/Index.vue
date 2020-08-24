@@ -2,9 +2,7 @@
   <div class="index container">
     <div class="card" v-for="smoothie in smoothies" :key="smoothie.id">
       <div class="card-content">
-        <i @click="deleteSmoothie(smoothie.id)" class="material-icons delete"
-          >delete</i
-        >
+        <i @click="deleteSmoothie(smoothie.id)" class="material-icons delete">delete</i>
         <h2 class="indigo-text">{{ smoothie.title }}</h2>
         <ul class="ingredients">
           <li v-for="(ing, i) in smoothie.ingredients" :key="i">
@@ -33,7 +31,7 @@ export default {
   name: "Index",
   data() {
     return {
-      smoothies: []
+      smoothies: [],
     };
   },
   methods: {
@@ -43,22 +41,24 @@ export default {
         .doc(id)
         .delete()
         .then(() => {
-          this.smoothies = this.smoothies.filter(smoothie => smoothie.id != id);
+          this.smoothies = this.smoothies.filter(
+            (smoothie) => smoothie.id != id
+          );
         });
-    }
+    },
   },
   created() {
     //fetch data from the firestore
     db.collection("smoothies")
       .get()
-      .then(snapshot => {
-        snapshot.forEach(doc => {
+      .then((snapshot) => {
+        snapshot.forEach((doc) => {
           let smoothie = doc.data();
           smoothie.id = doc.id;
           this.smoothies.push(smoothie);
         });
       });
-  }
+  },
 };
 </script>
 
@@ -91,5 +91,17 @@ export default {
   cursor: pointer;
   color: #aaa;
   font-size: 1.7em;
+}
+
+@media screen and (max-width: 1000px) {
+  .index {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .index {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
